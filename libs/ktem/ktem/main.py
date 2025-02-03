@@ -92,15 +92,14 @@ class App(BaseApp):
                             setattr(self, f"_index_{index.id}", page)
 
             if not KH_DEMO_MODE:
-                if not KH_SSO_ENABLED:
-                    with gr.Tab(
-                        "Resources",
-                        elem_id="resources-tab",
-                        id="resources-tab",
-                        visible=not self.f_user_management,
-                        elem_classes=["fill-main-area-height", "scrollable"],
-                    ) as self._tabs["resources-tab"]:
-                        self.resources_page = ResourcesTab(self)
+                with gr.Tab(
+                    "Resources",
+                    elem_id="resources-tab",
+                    id="resources-tab",
+                    visible=not self.f_user_management,
+                    elem_classes=["fill-main-area-height", "scrollable"],
+                ) as self._tabs["resources-tab"]:
+                    self.resources_page = ResourcesTab(self)
 
                 with gr.Tab(
                     "Settings",
@@ -160,7 +159,7 @@ class App(BaseApp):
                     if k == "login-tab":
                         tabs_update.append(gr.update(visible=False))
                     elif k == "resources-tab":
-                        tabs_update.append(gr.update(visible=is_admin))
+                        tabs_update.append(gr.update(visible=True))
                     else:
                         tabs_update.append(gr.update(visible=True))
 
