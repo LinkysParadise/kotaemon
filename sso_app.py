@@ -14,8 +14,10 @@ if GRADIO_TEMP_DIR is None:
     os.environ["GRADIO_TEMP_DIR"] = GRADIO_TEMP_DIR
 
 
-GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", default="")
-GOOGLE_CLIENT_SECRET = config("GOOGLE_CLIENT_SECRET", default="")
+KEYCLOAK_SERVER_URL = config("KEYCLOAK_SERVER_URL")
+KEYCLOAK_REALM = config("KEYCLOAK_REALM")
+KEYCLOAK_CLIENT_ID = config("KEYCLOAK_CLIENT_ID")
+KEYCLOAK_CLIENT_SECRET = config("KEYCLOAK_CLIENT_SECRET")
 
 
 from ktem.main import App  # noqa
@@ -25,10 +27,10 @@ demo = gradio_app.make()
 
 app = FastAPI()
 grlogin.register(
-    name="google",
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_id=GOOGLE_CLIENT_ID,
-    client_secret=GOOGLE_CLIENT_SECRET,
+    name="keycloak",
+    server_metadata_url=f"{KEYCLOAK_SERVER_URL}/realms/{KEYCLOAK_REALM}/.well-known/openid-configuration",
+    client_id=KEYCLOAK_CLIENT_ID,
+    client_secret=KEYCLOAK_CLIENT_SECRET,
     client_kwargs={
         "scope": "openid email profile",
     },
